@@ -1,6 +1,6 @@
 import { PrismaClient } from "../../generated/prisma/client";
 import fs from "fs";
-import path from "path";
+
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 const globalForPrisma = global as unknown as {
