@@ -156,6 +156,7 @@ export const createJobSchema = z.object({
   experienceMin: z.number().optional(),
 
   experienceMax: z.number().optional(),
+  //
 
   employmentType: z.enum(["FULL_TIME", "PART_TIME", "INTERNSHIP", "CONTRACT"]),
 });
