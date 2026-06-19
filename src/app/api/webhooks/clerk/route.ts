@@ -26,10 +26,18 @@ export async function POST(req: NextRequest) {
     console.log("EVENT TYPE:", evt.type);
     if (evt.type === "user.created") {
       const user = evt.data;
+      const email = user.email_addresses?.[0]?.email_address;
+
+      if (!email) {
+        return Response.json({
+          success: true,
+          message: "No email found",
+        });
+      }
       await prisma.user.create({
         data: {
           clerkId: user.id,
-          email: user.email_addresses?.[0]?.email_address ?? "",
+          email: email ?? "",
           name: `${user.first_name ?? ""} ${user.last_name ?? ""}`.trim(),
         },
       });
