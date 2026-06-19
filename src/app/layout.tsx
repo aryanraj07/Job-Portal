@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider, Show, SignInButton, UserButton } from "@clerk/nextjs";
+import UserSync from "@/components/common/UserSync";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -38,6 +39,7 @@ export default function RootLayout({
               <UserButton />
             </Show>
           </header>
+          <UserSync />
           {children}
         </body>
       </ClerkProvider>
