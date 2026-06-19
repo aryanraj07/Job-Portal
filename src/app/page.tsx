@@ -13,6 +13,6 @@ export default async function Home() {
     firstName: clerkUser?.firstName,
     lastName: clerkUser?.lastName,
   });
-
+  //
   return <></>;
 }
