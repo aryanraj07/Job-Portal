@@ -7,7 +7,9 @@ const globalForPrisma = global as unknown as {
   prisma: PrismaClient;
 };
 //
-const ca = fs.readFileSync(path.join(process.cwd(), "certs", "ca.pem"), "utf8");
+const certPath = path.join(process.cwd(), "src", "lib", "certs", "ca.pem");
+
+const ca = fs.readFileSync(certPath, "utf8");
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
