@@ -7,13 +7,11 @@ const globalForPrisma = global as unknown as {
   prisma: PrismaClient;
 };
 //
-const certPath = path.join(process.cwd(), "src", "lib", "certs", "ca.pem");
-
-const ca = fs.readFileSync(certPath, "utf8");
+console.log("CA CERT LENGTH:", process.env.AIVEN_CA_CERT?.length);
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    ca,
+    ca: process.env.AIVEN_CA_CERT,
     rejectUnauthorized: true,
   },
 });
