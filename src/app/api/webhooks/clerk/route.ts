@@ -4,12 +4,16 @@ import { NextRequest } from "next/server";
 import { Webhook } from "svix";
 export async function POST(req: NextRequest) {
   try {
-    console.log("WEBHOOK HIT");
+    console.log("========== WEBHOOK HIT ==========");
     const payload = await req.text();
     console.log("PAYLOAD", payload);
 
     const headerPayload = await headers();
-
+    console.log(
+      "HEADERS",
+      headerPayload.get("svix-id"),
+      headerPayload.get("svix-timestamp"),
+    );
     const svixId = headerPayload.get("svix-id")!;
     const svixTimestamp = headerPayload.get("svix-timestamp")!;
     const svixSignature = headerPayload.get("svix-signature")!;
@@ -19,6 +23,7 @@ export async function POST(req: NextRequest) {
       "svix-timestamp": svixTimestamp,
       "svix-signature": svixSignature,
     }) as any;
+    console.log("EVENT TYPE:", evt.type);
     if (evt.type === "user.created") {
       const user = evt.data;
       await prisma.user.create({
