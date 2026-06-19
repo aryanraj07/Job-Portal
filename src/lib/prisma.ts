@@ -1,5 +1,4 @@
 import { PrismaClient } from "../../generated/prisma/client";
-import fs from "fs";
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
@@ -12,7 +11,7 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     ca: process.env.AIVEN_CA_CERT,
-    rejectUnauthorized: true,
+    rejectUnauthorized: false,
   },
 });
 // const adapter = new PrismaPg({
