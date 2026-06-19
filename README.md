@@ -34,3 +34,70 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Step 1
+
+Step 1: Personal Information
+Name
+Email
+Phone
+Date of Birth
+Location
+LinkedIn
+
+## Step 2
+
+College
+Degree
+CGPA
+Passing Year
+
+## Step 3
+
+Company
+Role
+Start Date
+End Date
+Description
+
+## Step 4
+
+Step 4: Skills
+React
+Next.js
+Node.js
+MongoDB
+
+## Step 5
+
+Step 5: Resume Upload
+Upload Resume
+
+## Step 6
+
+Step 6: Portfolio
+Github
+Portfolio
+LinkedIn
+
+## Step 7
+
+Step 7: Review
+Show all entered data.
+
+Allow:
+
+Edit
+Edit
+Edit
+
+## Step 8
+
+Step 8: Submit
+Application Submitted
+
+## Create Job
+
+## Post Job
+
+show job in frontend

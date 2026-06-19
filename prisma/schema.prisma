@@ -1,0 +1,170 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+enum UserRole {
+  USER
+  ADMIN
+}
+model User{
+  id String   @id @default(cuid())
+   clerkId String @unique
+  name         String?
+  email        String   @unique
+  phone String?
+  location String?
+  dateOfBirth DateTime?
+  role UserRole @default(USER)
+  applications JobApplication[]
+  experiences Experience[]
+  education Education[]
+  skills Skill[]
+  resumes Resume[]
+  githubUrl String?
+  linkedInUrl String?
+  portfolioUrl String?
+  createdBy Job[]
+    profileCompleted Boolean @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+enum JobStatus {
+  DRAFT
+  OPEN
+  CLOSED
+}
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  INTERNSHIP
+  CONTRACT
+}
+
+model Job{
+  id String @unique @default(cuid())
+  title String
+ status JobStatus
+ location String?
+ salaryMin Int?
+  salaryMax Int?
+   description String @db.Text
+    experienceMin Int?
+  experienceMax Int?
+   createdById String
+  createdBy User @relation(fields: [createdById], references: [id])
+  employmentType EmploymentType
+  company String
+  application JobApplication[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+    @@index([status])
+  @@index([createdById])
+}
+
+model Education {
+  id String @id @default(cuid())
+userId String
+  college String
+degree String
+cgpa Float
+isCurrentlyStudying Boolean @default(false)
+startDate DateTime
+endDate DateTime?
+user User @relation(fields: [userId],references: [id])
+applications ApplicationEducation[]
+createdAt DateTime @default(now())
+ @@unique([userId,college,degree,startDate])
+ @@index([userId])
+}
+model ApplicationEducation {
+  id String @id @default(cuid())
+  applicationId String
+  educationId String
+  application JobApplication @relation(fields: [applicationId],references: [id],onDelete: Cascade)
+  education Education @relation(fields: [educationId],references: [id],onDelete: Cascade)
+  @@unique([applicationId, educationId])
+}
+model Experience {
+  id String @id @default(cuid())
+userId String
+  company String
+  role String
+  startDate DateTime
+  endDate DateTime?
+  description String
+  applications ApplicationExperience[]
+user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  createdAt DateTime @default(now())
+  @@unique([userId,company,startDate,role])
+  @@index([userId])
+}
+model ApplicationExperience{
+  id String @id @default(cuid())
+  applicationId String
+   experienceId String
+  application JobApplication @relation(fields: [applicationId],references: [id],onDelete: Cascade)
+  experience Experience @relation(fields: [experienceId],references: [id],onDelete: Cascade)
+}
+model Skill {
+  id String @id @default(cuid())
+  userId String
+  name String @unique
+  createdAt DateTime @default(now())
+  applications ApplicationSkill[]
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  @@unique([userId,name])
+  @@index([userId])
+}
+
+model ApplicationSkill{
+   id String @id @default(cuid())
+   applicationId String
+     skillId String
+     application JobApplication @relation(fields: [applicationId],references: [id])
+skill Skill @relation(fields: [skillId],references: [id])
+  @@unique([applicationId, skillId])
+}
+
+model Resume {
+  id String @id @default(cuid())
+userId String
+  fileName String
+  fileUrl String
+  user User @relation(fields: [userId],references: [id])
+    applications JobApplication[]
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([userId])
+}
+model JobApplication {
+  id String @id @default(cuid())
+  userId String
+  jobId  String
+  currentStep Int      @default(1)
+  isSubmitted Boolean  @default(false)
+  resumeId String?
+    githubUrl String?
+  linkedInUrl String?
+  portfolioUrl String?
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+ job Job @relation(fields: [jobId],references: [id],onDelete: Cascade)
+  selectedEducations ApplicationEducation[]
+selectedSkills ApplicationSkill[]
+resume Resume? @relation(fields: [resumeId],references: [id])
+  selectedExperiences ApplicationExperience[]
+  submittedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+@@index([jobId])
+@@index([userId])
+  @@unique([userId, jobId])
+}
